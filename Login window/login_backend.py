@@ -66,9 +66,9 @@ class Database:
     def close(self):
         self.connection.close()
 
-# #używać fetchone
-
 if __name__ == "__main__":
     db = Database()
-    db.add_client("jank", "jan123", "jan", "kowalski")
+    #db.add_client("jank", "jan123", "jan", "kowalski")
+    #db.delete_client("chuj")
+    db.load_client()
     db.close()

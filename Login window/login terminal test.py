@@ -8,9 +8,10 @@ while True:
         login = input("Write login: ")
         password = input("write password: ")
         res = db.log_into(login, password)
-        print(res)
-        client = login_backend.Client(res[3], res[4], res[1], res[2])
-        break
+        if res != False:
+            print(res)
+            client = login_backend.Client(res[3], res[4], res[1], res[2])
+            break
 
     elif choice == 2:
         name = input("write name: ")
@@ -24,3 +25,4 @@ while True:
     else:
         print("Write appropriate number!")
 
+print(f"Siema {client.name}")
