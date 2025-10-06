@@ -8,7 +8,7 @@ class Client:
         self.lastname = lastname
 
     def __str__(self):
-        print(self.name, self.lastname, self.login)
+        print([self.name, self.lastname, self.login])
 
 class Database:
     def __init__(self):
@@ -40,7 +40,7 @@ class Database:
         result = self.cursor.fetchone()
         if result:
             print("Login succeed")
-            return True
+            return result
         else:
             print("Login failed")
             return False
@@ -63,32 +63,12 @@ class Database:
         self.connection.commit()
         print(f"Deleted client with login: {login}")
 
-# #stworzyć kolejną klasę database i tam funkcje związane z requestami do bazy danych, logowania itd
+    def close(self):
+        self.connection.close()
+
 # #używać fetchone
 
 if __name__ == "__main__":
-#     connection = sqlite3.connect('clients_data.db')
-#     cursor = connection.cursor()
-
-#     cursor.execute('''
-#     CREATE TABLE IF NOT EXISTS clients (
-#     login TEXT PRIMARY KEY,
-#     password TEXT,
-#     name TEXT,
-#     lastname TEXT)''')
-
-#     #test stuff
-#     c1 = Client('John', 'Nowak', 'root', '1234')
-#     # c1.add_client()
-#     # try: print(c1)
-#     # except: TypeError
-
-#     c1.load_client()
-#     c1.delete_client("root")
-
-#     c1.load_client()
     db = Database()
     db.add_client("jank", "jan123", "jan", "kowalski")
-
-#     connection.commit()
     db.close()

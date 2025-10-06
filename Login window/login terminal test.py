@@ -1,14 +1,16 @@
 import login_backend
 
-db = login_backend.Database
+db = login_backend.Database()
 
 while True:
     choice = int(input("what do you want to do? \n1. log in\n2. sign in \n"))
     if choice == 1:
         login = input("Write login: ")
         password = input("write password: ")
-        db.log_into(login, password)
-        
+        res = db.log_into(login, password)
+        print(res)
+        client = login_backend.Client(res[3], res[4], res[1], res[2])
+        break
 
     elif choice == 2:
         name = input("write name: ")
@@ -17,7 +19,8 @@ while True:
         password = input("Write password: ")
         client = login_backend.Client(name, last_name, login, password)
         #print(client)
-        db.add_client(1, login, password, name, last_name)
+        db.add_client(login, password, name, last_name)
 
     else:
         print("Write appropriate number!")
+
