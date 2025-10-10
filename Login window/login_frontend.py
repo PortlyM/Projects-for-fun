@@ -12,6 +12,8 @@ class Window(tk.Tk):
         container.pack(fill="both", expand=True)
         self.frames = {}
 
+        self.db = login_backend.Database()
+
         for F in (MainWindow, Login_window, Sign_in_window):
             page_name = F.__name__
             frame = F(container, self)
@@ -41,42 +43,91 @@ class MainWindow(tk.Frame):
 class Login_window(tk.Frame):
     def __init__(self, master, controller):
         super().__init__(master)
+        self.db = login_backend.Database()
+
         self.controller = controller
 
         self.label = tk.Label(self, text="Log in")
         self.label.pack(pady=10)
 
-        self.login_entry = tk.Entry(self, width=50)
+        self.label = tk.Label(self, text="Entry login:")
+        self.label.pack(pady=3)
+
+        self.login_entry = ttk.Entry(self, width=50)
         self.login_entry.pack(pady=5, padx=5)
 
-        self.password_entry = tk.Entry(self, width=50)
+        self.label = tk.Label(self, text="Entry password:")
+        self.label.pack(pady=3)
+
+        self.password_entry = ttk.Entry(self, width=50)
         self.password_entry.pack(pady=5, padx=5)
+
+        self.button = ttk.Button(self, text="Log in", command=lambda: self.log_in_submit(self.login_entry, self.password_entry))
+        self.button.pack(pady=5)
 
         self.button = ttk.Button(self, text="Back", command=lambda: controller.show_frame("MainWindow"))
         self.button.pack(pady=10)
+
+    def log_in_submit(self, login, password):
+            login = self.login_entry.get()
+            password = self.password_entry.get()
+            if login == "" or password == "":
+                print(login)
+                print(password)
+                print("Lack of login or password")
+            else:
+                self.db.log_into(login, password)
+                print("Logged in successfully")
 
 class Sign_in_window(tk.Frame):
     def __init__(self, master, controller):
         super().__init__(master)
         self.controller = controller
+        self.db = login_backend.Database()
 
         self.label = tk.Label(self, text="Sign in")
         self.label.pack(pady=10)
 
+        self.label = tk.Label(self, text="Enter login:")
+        self.label.pack(pady=3)
+
         self.name_entry = tk.Entry(self, width=50)
-        self.name_entry.pack(pady=5, padx=5)
+        self.name_entry.pack(pady=5, padx=10)
+
+        self.label = tk.Label(self, text="Enter name:")
+        self.label.pack(pady=3)
 
         self.last_name_entry = tk.Entry(self, width=50)
-        self.last_name_entry.pack(pady=5, padx=5)
+        self.last_name_entry.pack(pady=5, padx=10)
+
+        self.label = tk.Label(self, text="Enter last name:")
+        self.label.pack(pady=3)
 
         self.login_entry = tk.Entry(self, width=50)
-        self.login_entry.pack(pady=5, padx=5)
+        self.login_entry.pack(pady=5, padx=10)
+
+        self.label = tk.Label(self, text="Enter password:")
+        self.label.pack(pady=3)
 
         self.password_entry = tk.Entry(self, width=50)
-        self.password_entry.pack(pady=5, padx=5)
+        self.password_entry.pack(pady=5, padx=10)
+
+        self.button = ttk.Button(self, text="Sign in", command=lambda: self.sign_in_submit(self.login_entry, self.password_entry, self.name_entry, self.last_name_entry))
+        self.button.pack(pady=5)
 
         self.button = ttk.Button(self, text="Back", command=lambda: controller.show_frame("MainWindow"))
         self.button.pack(pady=10)
+
+    def sign_in_submit(self, login, password, name, last_name):
+            login = self.login_entry.get()
+            password = self.password_entry.get()
+            name = self.name_entry.get()
+            last_name = self.last_name_entry.get()
+            if login == "" or password == "" or name =="" or last_name == "":
+                print("Lack of one of variables")
+            else:
+                self.db.add_client(login, password, name, last_name)
+                print("Signed in successfully")
 
 
 if __name__ == "__main__":
