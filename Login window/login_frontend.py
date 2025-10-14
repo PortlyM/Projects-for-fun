@@ -78,6 +78,8 @@ class Login_window(tk.Frame):
             else:
                 self.db.log_into(login, password)
                 print("Logged in successfully")
+                self.controller.show_frame("MainWindow")
+                messagebox.showinfo("Success", "Logged in successfully")
 
 class Sign_in_window(tk.Frame):
     def __init__(self, master, controller):
@@ -128,6 +130,8 @@ class Sign_in_window(tk.Frame):
             else:
                 self.db.add_client(login, password, name, last_name)
                 print("Signed in successfully")
+                self.controller.show_frame("Main window")
+                messagebox.showinfo("Success", "New user has been created!")
 
 
 if __name__ == "__main__":
